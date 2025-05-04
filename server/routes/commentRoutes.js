@@ -1,4 +1,5 @@
 import express from 'express'
+import authMiddleware from '../middleware/authMiddleware.js'
 import {
   leaveComment,
   getCommentsByOutfit,
@@ -7,8 +8,8 @@ import {
 
 const router = express.Router()
 
-router.post('/', leaveComment)
+router.post('/', authMiddleware, leaveComment)
 router.get('/:outfitId', getCommentsByOutfit)
-router.delete('/:id', deleteComment)
+router.delete('/:id', authMiddleware, deleteComment)
 
 export default router
