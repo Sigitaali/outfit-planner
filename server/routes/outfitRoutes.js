@@ -1,3 +1,4 @@
+import authMiddleware from '../middleware/authMiddleware.js'
 import express from 'express'
 import {
   createOutfit,
@@ -9,10 +10,10 @@ import {
 
 const router = express.Router()
 
-router.post('/', createOutfit)
+router.post('/', authMiddleware, createOutfit)
 router.get('/', getOutfits)
 router.get('/:id', getOutfitById)
 router.put('/:id', updateOutfit)
-router.delete('/:id', deleteOutfit)
+router.delete('/:id', authMiddleware, deleteOutfit)
 
 export default router

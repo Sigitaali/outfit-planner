@@ -2,7 +2,17 @@ import Outfit from '../models/Outfit.js'
 
 export const createOutfit = async (req, res) => {
   try {
-    const outfit = await Outfit.create(req.body)
+    const { title, description, imageUrl, items, subcategory } = req.body
+
+    const outfit = await Outfit.create({
+      title,
+      description,
+      imageUrl,
+      items,
+      subcategory,
+      user: req.user.id 
+    })
+
     res.status(201).json(outfit)
   } catch (err) {
     res.status(400).json({ error: err.message })
@@ -48,6 +58,14 @@ export const deleteOutfit = async (req, res) => {
   try {
     const deleted = await Outfit.findByIdAndDelete(req.params.id)
     if (!deleted) return res.status(404).json({ message: 'Outfit not found' })
+      const isOwner = outfit.user.toString() === req.user.id
+    const isAdmin = req.user.role === 'admin'
+
+    if (!isOwner && !isAdmin) {
+      return res.status(403).json({ message: 'You are not allowed to delete this outfit' })
+    }
+
+    await outfit.deleteOne()
     res.status(200).json({ message: 'Outfit deleted' })
   } catch (err) {
     res.status(500).json({ error: err.message })
