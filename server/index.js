@@ -6,6 +6,8 @@ import authRoutes from './routes/authRoutes.js'
 import outfitRoutes from './routes/outfitRoutes.js'
 import subcategoryRoutes from './routes/subcategoryRoutes.js'
 import categoryRoutes from './routes/categoryRoutes.js'
+import commentRoutes from './routes/commentRoutes.js'
+
 
 
 
@@ -25,6 +27,9 @@ app.use('/api/outfits', outfitRoutes)
 app.use('/api/subcategories', subcategoryRoutes)
 
 app.use('/api/categories', categoryRoutes)
+
+app.use('/api/comments', commentRoutes)
+
 
 
 
