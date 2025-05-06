@@ -10,8 +10,8 @@ const Navbar: React.FC = () => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#f8bbd0', // Pastelinė rožinė
-        color: '#333', // Tamsi tekstui
+        backgroundColor: '#f8bbd0', 
+        color: '#333', 
         boxShadow: 'none'
       }}
     >
