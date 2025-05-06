@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
 import OutfitsPage from './pages/OutfitsPage'
+import OutfitDetailsPage from './pages/OutfitDetailsPage'
 import CommentsPage from './pages/CommentsPage'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import HomePage from './pages/HomePage'
@@ -22,29 +23,12 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-
+        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/outfits" element={<OutfitsPage />} />
         <Route path="/outfits/:category" element={<OutfitsPage />} />
-
-        <Route
-          path="/outfits/:category"
-          element={
-            <ProtectedRoute>
-              <OutfitsPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route path="/category/:category" 
-        element={
-        <CategoryPage />
-          } 
-        />
-
-        <Route path="/outfits/subcategory/:subcategoryId" 
-        element={
-        <OutfitsBySubcategoryPage />
-        } 
-        />
+        <Route path="/outfits/subcategory/:subcategoryId" element={<OutfitsBySubcategoryPage />} />
+        <Route path="/outfits/details/:id" element={<OutfitDetailsPage />} />
+        <Route path="/comments" element={<CommentsPage />} />
 
         <Route
           path="/create-outfit"
@@ -54,7 +38,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/edit-outfit/:id"
+          element={
+            <ProtectedRoute>
+              <EditOutfitPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/my-outfits"
           element={
@@ -63,25 +54,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
-        <Route
-          path="/comments"
-          element={
-            <ProtectedRoute>
-              <CommentsPage />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-           path="/edit-outfit/:id"
-           element={
-          <ProtectedRoute>
-              <EditOutfitPage />
-          </ProtectedRoute>
-        }
-        />
-
         <Route
           path="/profile"
           element={
