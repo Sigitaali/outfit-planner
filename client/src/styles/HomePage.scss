@@ -1,0 +1,38 @@
+.home-container {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .home-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .category-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .category-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-align: center;
+  
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    h2 {
+      margin-top: 0.5rem;
+    }
+  }
+  
+  .category-image {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
