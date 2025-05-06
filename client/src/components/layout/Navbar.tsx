@@ -15,6 +15,9 @@ const Navbar: React.FC = () => {
 
         {user ? (
           <>
+            <Button color="inherit" component={Link} to="/">
+              Home
+            </Button>
             <Button color="inherit" component={Link} to="/profile">
               Profile
             </Button>
@@ -24,6 +27,9 @@ const Navbar: React.FC = () => {
             <Button color="inherit" component={Link} to="/comments">
               Comments
             </Button>
+            <Button color="inherit" component={Link} to="/my-outfits">
+              My Outfits
+              </Button>
             <Button color="inherit" onClick={logoutUser}>
               Logout
             </Button>

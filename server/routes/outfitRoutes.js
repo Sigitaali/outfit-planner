@@ -5,11 +5,14 @@ import {
   getOutfits,
   getOutfitById,
   updateOutfit,
-  deleteOutfit
+  deleteOutfit,
+  getUserOutfits
 } from '../controllers/outfitController.js'
 
 const router = express.Router()
 
+
+router.get('/mine', authMiddleware, getUserOutfits)
 router.post('/', authMiddleware, createOutfit)
 router.get('/', getOutfits)
 router.get('/:id', getOutfitById)

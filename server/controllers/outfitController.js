@@ -21,9 +21,15 @@ export const createOutfit = async (req, res) => {
 
 export const getOutfits = async (req, res) => {
   try {
-    const outfits = await Outfit.find()
+    const filter = {}
+    if (req.query.subcategory) {
+      filter.subcategory = req.query.subcategory
+    }
+
+    const outfits = await Outfit.find(filter)
       .populate('user', 'username')
       .populate('subcategory', 'name')
+
     res.status(200).json(outfits)
   } catch (err) {
     res.status(500).json({ error: err.message })
@@ -44,21 +50,26 @@ export const getOutfitById = async (req, res) => {
 
 export const updateOutfit = async (req, res) => {
   try {
-    const updated = await Outfit.findByIdAndUpdate(req.params.id, req.body, {
-      new: true
-    })
-    if (!updated) return res.status(404).json({ message: 'Outfit not found' })
+    const outfit = await Outfit.findById(req.params.id)
+    if (!outfit) return res.status(404).json({ message: 'Outfit not found' })
+
+    const isOwner = outfit.user.toString() === req.user.id
+    if (!isOwner) return res.status(403).json({ message: 'Not authorized to edit this outfit' })
+
+    const updated = await Outfit.findByIdAndUpdate(req.params.id, req.body, { new: true })
     res.status(200).json(updated)
   } catch (err) {
     res.status(400).json({ error: err.message })
   }
 }
 
+
 export const deleteOutfit = async (req, res) => {
   try {
-    const deleted = await Outfit.findByIdAndDelete(req.params.id)
-    if (!deleted) return res.status(404).json({ message: 'Outfit not found' })
-      const isOwner = outfit.user.toString() === req.user.id
+    const outfit = await Outfit.findById(req.params.id)
+    if (!outfit) return res.status(404).json({ message: 'Outfit not found' })
+
+    const isOwner = outfit.user.toString() === req.user.id
     const isAdmin = req.user.role === 'admin'
 
     if (!isOwner && !isAdmin) {
@@ -71,3 +82,16 @@ export const deleteOutfit = async (req, res) => {
     res.status(500).json({ error: err.message })
   }
 }
+
+export const getUserOutfits = async (req, res) => {
+  try {
+    console.log('User from token:', req.user)
+    const userId = req.user.id
+    const outfits = await Outfit.find({ user: userId }).populate('subcategory', 'name')
+    res.status(200).json(outfits)
+  } catch (err) {
+    console.error('getUserOutfits ERROR:', err)
+    res.status(500).json({ error: err.message })
+  }
+}
+

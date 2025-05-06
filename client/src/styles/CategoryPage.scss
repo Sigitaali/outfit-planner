@@ -1,0 +1,35 @@
+.category-container {
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  .subcategory-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .subcategory-card {
+    width: 250px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    text-align: center;
+  
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    h3 {
+      margin-top: 0.5rem;
+    }
+  }
+  
+  .subcategory-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
