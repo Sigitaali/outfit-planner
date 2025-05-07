@@ -58,13 +58,24 @@ export const updateOutfit = async (req, res) => {
 
     const isOwner = outfit.user.toString() === req.user.id
     if (!isOwner) return res.status(403).json({ message: 'Not authorized to edit this outfit' })
+    const updated = await Outfit.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+        context: 'query'
+      }
+    )
 
-    const updated = await Outfit.findByIdAndUpdate(req.params.id, req.body, { new: true })
     res.status(200).json(updated)
   } catch (err) {
-    res.status(400).json({ error: err.message })
+    console.error('Update outfit error:', err)
+    res.status(400).json({ message: err.message })
   }
 }
+
+
 
 
 export const deleteOutfit = async (req, res) => {

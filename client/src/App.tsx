@@ -3,9 +3,9 @@ import Navbar from './components/layout/Navbar'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
+import { OutfitFilterProvider } from './context/OutfitFilterContext'
 import OutfitsPage from './pages/OutfitsPage'
 import OutfitDetailsPage from './pages/OutfitDetailsPage'
-import CommentsPage from './pages/CommentsPage'
 import ProtectedRoute from './components/layout/ProtectedRoute'
 import HomePage from './pages/HomePage'
 import MyOutfitsPage from './pages/MyOutfitsPage'
@@ -13,10 +13,13 @@ import CreateOutfitPage from './pages/CreateOutfitPage'
 import CategoryPage from './pages/CategoryPage'
 import OutfitsBySubcategoryPage from './pages/OutfitsBySubcategoryPage'
 import EditOutfitPage from './pages/EditOutfitPage'
+import { NotificationProvider } from './context/NotificationContext'
+import AllCommentsPage from './pages/AllCommentsPage'
+import SingleCommentPage from './pages/SingleCommentPage'
 
 const App = () => {
   return (
-    <>
+    <NotificationProvider> { }
       <Navbar />
 
       <Routes>
@@ -24,11 +27,31 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/category/:category" element={<CategoryPage />} />
-        <Route path="/outfits" element={<OutfitsPage />} />
+
+        <Route
+          path="/outfits"
+          element={
+            <OutfitFilterProvider>
+              <OutfitsPage />
+            </OutfitFilterProvider>
+          }
+        />
+
+        <Route
+          path="/outfits/:category"
+          element={
+            <OutfitFilterProvider>
+              <OutfitsPage />
+            </OutfitFilterProvider>
+          }
+        />
+
         <Route path="/outfits/:category" element={<OutfitsPage />} />
         <Route path="/outfits/subcategory/:subcategoryId" element={<OutfitsBySubcategoryPage />} />
         <Route path="/outfits/details/:id" element={<OutfitDetailsPage />} />
-        <Route path="/comments" element={<CommentsPage />} />
+        <Route path="/all-comments" element={<AllCommentsPage />} />
+        <Route path="/comments/:id" element={<SingleCommentPage />} />
+
 
         <Route
           path="/create-outfit"
@@ -63,7 +86,7 @@ const App = () => {
           }
         />
       </Routes>
-    </>
+    </NotificationProvider>
   )
 }
 

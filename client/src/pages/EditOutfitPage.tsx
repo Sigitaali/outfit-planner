@@ -18,6 +18,7 @@ const EditOutfitPage = () => {
   const [items, setItems] = useState('')
   const [subcategory, setSubcategory] = useState('')
   const [subcategories, setSubcategories] = useState<Subcategory[]>([])
+  const [error, setError] = useState('')
 
   useEffect(() => {
     fetchOutfit()
@@ -49,30 +50,45 @@ const EditOutfitPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
+
     const token = localStorage.getItem('token')
+    if (!token) {
+      setError('Authorization token not found.')
+      return
+    }
+
     try {
+      const updatedData = {
+        title,
+        description,
+        imageUrl,
+        items: items.split(',').map((item: string) => item.trim()),
+        subcategory
+      }
+
       await axios.put(
         `http://localhost:3000/api/outfits/${id}`,
+        updatedData,
         {
-          title,
-          description,
-          imageUrl,
-          items: items.split(',').map((item) => item.trim()),
-          subcategory,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
       )
+
       navigate('/my-outfits')
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to update outfit', err)
+      setError(err.response?.data?.message || 'Failed to update outfit.')
     }
   }
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h2>Edit Outfit</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-control">
           <label>Title:</label>

@@ -1,6 +1,19 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import {
+    Container,
+    Typography,
+    Card,
+    CardMedia,
+    CardContent,
+    CircularProgress,
+    Chip,
+    Box
+  } from '@mui/material'
+import CommentSection from '../components/comments/CommentSection'
+import '../styles/OutfitDetailsPage.scss'
+
 
 interface Outfit {
   _id: string
@@ -15,6 +28,7 @@ interface Outfit {
 const OutfitDetailsPage = () => {
   const { id } = useParams()
   const [outfit, setOutfit] = useState<Outfit | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchOutfit = async () => {
@@ -23,23 +37,53 @@ const OutfitDetailsPage = () => {
         setOutfit(res.data)
       } catch (err) {
         console.error('Failed to load outfit details:', err)
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchOutfit()
   }, [id])
 
-  if (!outfit) return <p>Loading outfit...</p>
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" mt={5}>
+        <CircularProgress />
+      </Box>
+    )
+  }
+
+  if (!outfit) return <Typography textAlign="center">Outfit not found.</Typography>
 
   return (
-    <div className="outfit-details">
-      <h2>{outfit.title}</h2>
-      <img src={outfit.imageUrl} alt={outfit.title} />
-      <p>{outfit.description}</p>
-      <p><strong>Subcategory:</strong> {outfit.subcategory.name}</p>
-      <p><strong>Created by:</strong> {outfit.user.username}</p>
-      <p><strong>Items:</strong> {outfit.items.join(', ')}</p>
-    </div>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Card className="outfit-card">
+        <CardMedia
+          component="img"
+          image={outfit.imageUrl}
+          alt={outfit.title}
+          className="outfit-image"
+        />
+  
+        <CardContent>
+          <Typography variant="h5" gutterBottom>{outfit.title}</Typography>
+          <Typography variant="body1" paragraph>{outfit.description}</Typography>
+
+          <Box mb={1}>
+            <Chip label={`Subcategory: ${outfit.subcategory.name}`} sx={{ mr: 1 }} />
+            <Chip label={`Created by: ${outfit.user.username}`} />
+          </Box>
+
+          <Typography variant="body2">
+            <strong>Items:</strong> {outfit.items.join(', ')}
+          </Typography>
+        </CardContent>
+      </Card>
+
+      <Box mt={4}>
+        <CommentSection outfitId={outfit._id} />
+      </Box>
+    </Container>
   )
 }
 
