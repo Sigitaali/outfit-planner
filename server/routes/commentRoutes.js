@@ -6,8 +6,7 @@ import {
   updateComment,
   deleteComment,
   getAllComments,
-  getCommentById,
-  getMyComments
+  getCommentById
 } from '../controllers/commentController.js'
 
 const router = express.Router()
@@ -18,7 +17,6 @@ router.put('/:id', authMiddleware, updateComment)
 router.delete('/:id', authMiddleware, deleteComment)
 router.get('/', getAllComments)
 router.get('/single/:id', getCommentById)
-router.get('/my', authMiddleware, getMyComments)
 
 
 export default router
