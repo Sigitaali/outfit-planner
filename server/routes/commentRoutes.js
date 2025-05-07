@@ -11,12 +11,11 @@ import {
 
 const router = express.Router()
 
-router.post('/', authMiddleware, leaveComment)
+router.get('/single/:id', getCommentById)
+router.get('/', getAllComments)
 router.get('/:outfitId', getCommentsByOutfit)
+router.post('/', authMiddleware, leaveComment)
 router.put('/:id', authMiddleware, updateComment)
 router.delete('/:id', authMiddleware, deleteComment)
-router.get('/', getAllComments)
-router.get('/single/:id', getCommentById)
-
 
 export default router
