@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import '../styles/AllCommentsPage.scss'
 
 interface Comment {
   _id: string
@@ -32,25 +33,18 @@ const AllCommentsPage = () => {
     fetchComments()
   }, [])
 
-  if (loading) return <p>Loading comments...</p>
-  if (error) return <p style={{ color: 'red' }}>{error}</p>
-  if (comments.length === 0) return <p>No comments available.</p>
+  if (loading) return <p style={{ textAlign: 'center' }}>Loading comments...</p>
+  if (error) return <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>
+  if (comments.length === 0) return <p style={{ textAlign: 'center' }}>No comments available.</p>
 
   return (
-    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+    <div className="comments-container">
       <h2>All Comments</h2>
       {comments.map((comment) => (
         <div
           key={comment._id}
+          className="comment-card"
           onClick={() => navigate(`/comments/${comment._id}`)}
-          style={{
-            border: '1px solid #ccc',
-            padding: '12px',
-            marginBottom: '10px',
-            cursor: 'pointer',
-            backgroundColor: '#f9f9f9',
-            borderRadius: '6px'
-          }}
         >
           <p>
             <strong>{comment.user?.username || 'Unknown user'}</strong> on{' '}

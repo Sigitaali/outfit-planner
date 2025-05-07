@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import {
+  Container,
+  Typography,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Box
+} from '@mui/material'
 import '../styles/CategoryPage.scss'
 
 interface Subcategory {
@@ -36,25 +45,46 @@ const CategoryPage = () => {
   }
 
   return (
-    <div className="category-container">
-      <h2>{category?.toUpperCase()} Subcategories</h2>
-      <div className="subcategory-grid">
+    <Container className="category-container" sx={{ mt: 4 }}>
+      <Typography variant="h4" gutterBottom align="center">
+        {category?.toUpperCase()} Subcategories
+      </Typography>
+
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: {
+            xs: '1fr',
+            sm: '1fr 1fr',
+            md: '1fr 1fr 1fr'
+          },
+          gap: 4,
+          mt: 2
+        }}
+      >
         {subcategories.map((sub) => (
-          <div
+          <Card
             key={sub._id}
-            className="subcategory-card"
             onClick={() => navigate(`/outfits/subcategory/${sub._id}`)}
+            sx={{ cursor: 'pointer' }}
           >
-            <img
-              src={formatImagePath(sub.name)}
-              alt={sub.name}
-              className="subcategory-image"
-            />
-            <h3>{sub.name}</h3>
-          </div>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                height="200"
+                image={formatImagePath(sub.name)}
+                alt={sub.name}
+              />
+              <CardContent>
+                <Typography variant="h6" align="center">
+                  {sub.name}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Container>
   )
 }
 

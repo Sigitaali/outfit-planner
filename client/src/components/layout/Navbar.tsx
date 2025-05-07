@@ -1,60 +1,43 @@
-import React from 'react'
-import { AppBar, Toolbar, Typography, Button } from '@mui/material'
+import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const { user, logoutUser } = useAuth()
 
   return (
     <AppBar
       position="static"
       sx={{
-        backgroundColor: '#f8bbd0', 
-        color: '#333', 
-        boxShadow: 'none'
+        backgroundColor: '#424242',
+        color: '#fff',
+        boxShadow: 'none',
       }}
     >
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+        <Typography variant="h6" sx={{ flexGrow: 1, mb: { xs: 1, sm: 0 } }}>
           Outfit Planner
         </Typography>
 
-        <Button color="inherit" component={Link} to="/">
-          Home
-        </Button>
-        <Button color="inherit" component={Link} to="/outfits">
-          Outfits
-        </Button>
-        <Button color="inherit" component={Link} to="/all-comments">
-          Comments
-        </Button>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
+          <Button color="inherit" component={Link} to="/">Home</Button>
+          <Button color="inherit" component={Link} to="/outfits">Outfits</Button>
+          <Button color="inherit" component={Link} to="/comments">Comments</Button>
 
-        {user ? (
-          <>
-            <Button color="inherit" component={Link} to="/profile">
-              Profile
-            </Button>
-            <Button color="inherit" component={Link} to="/my-outfits">
-              My Outfits
-            </Button>
-            <Button color="inherit" component={Link} to="/create-outfit">
-              Create Outfit
-            </Button>
-            <Button color="inherit" onClick={logoutUser}>
-              Logout
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <Button color="inherit" component={Link} to="/register">
-              Register
-            </Button>
-          </>
-        )}
+          {user ? (
+            <>
+              <Button color="inherit" component={Link} to="/profile">Profile</Button>
+              <Button color="inherit" component={Link} to="/my-outfits">My Outfits</Button>
+              <Button color="inherit" component={Link} to="/create-outfit">Create Outfit</Button>
+              <Button color="inherit" onClick={logoutUser}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">Login</Button>
+              <Button color="inherit" component={Link} to="/register">Register</Button>
+            </>
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   )

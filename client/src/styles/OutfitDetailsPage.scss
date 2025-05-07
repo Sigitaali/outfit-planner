@@ -1,12 +1,37 @@
 .outfit-card {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
   .outfit-image {
     width: 100%;
-    height: auto;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
   }
-  
+
+  .MuiCardContent-root {
+    padding: 1.5rem;
+
+    h5 {
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      color: #444;
+      margin-bottom: 1rem;
+    }
+
+    strong {
+      color: #222;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .outfit-card {
+    .MuiCardContent-root {
+      padding: 1rem;
+    }
+  }
+}
