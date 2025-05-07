@@ -54,8 +54,7 @@ const ProfilePage = () => {
       </div>
 
       <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-        <SubmitButton onClick={() => navigate('/outfits')} text="View My Outfits" color="success" />
-        <SubmitButton onClick={() => navigate('/comments')} text="View My Comments" color="success" />
+        <SubmitButton onClick={() => navigate('/my-outfits')} text="View My Outfits" color="success" />
         <SubmitButton onClick={logoutUser} text="Logout" color="error" />
       </div>
     </div>

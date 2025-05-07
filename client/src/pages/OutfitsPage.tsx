@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { useOutfitFilter } from '../context/OutfitFilterContext'
 
 interface Outfit {
   _id: string
@@ -20,6 +21,7 @@ interface Outfit {
 const OutfitsPage = () => {
   const { category } = useParams()
   const [outfits, setOutfits] = useState<Outfit[]>([])
+  const { state } = useOutfitFilter() 
 
   useEffect(() => {
     const fetchOutfits = async () => {
@@ -36,7 +38,7 @@ const OutfitsPage = () => {
     }
 
     fetchOutfits()
-  }, [category])
+  }, [category, state.subcategory])
 
   return (
     <div className="outfit-list">
