@@ -21,15 +21,19 @@ export const createOutfit = async (req, res) => {
 
 export const getOutfits = async (req, res) => {
   try {
-    const outfits = await Outfit.find()
+    const query = {}
+
+
+    if (req.query.subcategory) {
+      query.subcategory = req.query.subcategory
+    }
+
+    const outfits = await Outfit.find(query)
       .populate({
         path: 'subcategory',
         populate: { path: 'category', select: 'name' }
       })
-      .populate({
-        path: 'user',
-        select: 'username'
-      })
+      .populate({ path: 'user', select: 'username' })
 
     res.status(200).json(outfits)
   } catch (err) {
