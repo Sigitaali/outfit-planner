@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { useAuth } from '../context/AuthContext'
 import SubmitButton from '../components/buttons/SubmitButton'
-import IconButton from '../components/buttons/IconButton'
+import '../styles/ProfilePage.scss'
 
 type UserData = {
   username: string
@@ -43,7 +43,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
-      <h1 style={{ textAlign: 'center', marginBottom: '1rem' }}>
+      <h1>
         <span role="img" aria-label="user">👤</span> Profile
       </h1>
 
@@ -53,7 +53,7 @@ const ProfilePage = () => {
         <p><strong>Role:</strong> {userData.role}</p>
       </div>
 
-      <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <div className="profile-actions">
         <SubmitButton onClick={() => navigate('/my-outfits')} text="View My Outfits" color="success" />
         <SubmitButton onClick={logoutUser} text="Logout" color="error" />
       </div>

@@ -7,6 +7,7 @@ const HomePage = () => {
   return (
     <div className="home-container">
       <h1 className="home-title">Choose Your Style</h1>
+
       <div className="category-grid">
         <div className="category-card" onClick={() => navigate('/category/women')}>
           <img
@@ -26,6 +27,11 @@ const HomePage = () => {
           <h2>Men</h2>
         </div>
       </div>
+
+      <button className="explore-button" onClick={() => navigate('/outfits')}>
+          Explore All Outfits
+      </button>
+
     </div>
   )
 }

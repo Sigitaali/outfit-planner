@@ -1,10 +1,12 @@
 import React from 'react'
+import './Button.scss'
 
 interface SubmitButtonProps {
   text: string
   onClick?: () => void
   type?: 'submit' | 'button' | 'reset'
-  color?: 'primary' | 'success' | 'error' | 'default'
+  color?: 'primary' | 'success' | 'error'
+  disabled?: boolean
 }
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
@@ -12,27 +14,14 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
   onClick,
   type = 'submit',
   color = 'primary',
+  disabled = false
 }) => {
-  const bgColors: Record<string, string> = {
-    primary: '#1976d2',
-    success: '#388e3c',
-    error: '#d32f2f',
-    default: '#333',
-  }
-
   return (
     <button
       type={type}
       onClick={onClick}
-      style={{
-        backgroundColor: bgColors[color],
-        color: '#fff',
-        border: 'none',
-        borderRadius: '6px',
-        padding: '0.6rem 1.2rem',
-        cursor: 'pointer',
-        fontSize: '1rem',
-      }}
+      className={`button button--${color}`}
+      disabled={disabled}
     >
       {text}
     </button>

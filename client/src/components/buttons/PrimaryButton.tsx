@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import './Button.scss'
 
 interface PrimaryButtonProps {
   children: ReactNode
@@ -8,22 +9,10 @@ interface PrimaryButtonProps {
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = ({ children, onClick, type = 'button' }) => {
   return (
-    <button type={type} onClick={onClick} style={styles.button}>
+    <button type={type} onClick={onClick} className="button button--success">
       {children}
     </button>
   )
-}
-
-const styles = {
-  button: {
-    padding: '0.6rem 1.2rem',
-    backgroundColor: '#4caf50',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '6px',
-    cursor: 'pointer',
-    fontSize: '1rem'
-  }
 }
 
 export default PrimaryButton

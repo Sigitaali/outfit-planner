@@ -1,9 +1,21 @@
+import {
+  Container,
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+  Button,
+  Paper,
+  Box
+} from '@mui/material'
 import { useEffect, useReducer, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { outfitFormReducer, OutfitFormState } from '../reducer/creatOutfitReducer'
 import { useNotification } from '../context/NotificationContext'
+import { outfitFormReducer, OutfitFormState } from '../reducer/creatOutfitReducer'
 
 interface Subcategory {
   _id: string
@@ -24,7 +36,6 @@ const CreateOutfitPage = () => {
   const [subcategories, setSubcategories] = useState<Subcategory[]>([])
   const [errorMessage, setErrorMessage] = useState('')
   const [formState, dispatch] = useReducer(outfitFormReducer, initialFormState)
-  const { user } = useAuth()
   const { showNotification } = useNotification()
   const navigate = useNavigate()
 
@@ -77,78 +88,82 @@ const CreateOutfitPage = () => {
   }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h2>Create New Outfit</h2>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-control">
-          <label>Title:</label>
-          <input
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Create New Outfit
+        </Typography>
+
+        {errorMessage && (
+          <Typography color="error" sx={{ mb: 2 }}>
+            {errorMessage}
+          </Typography>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField
+            label="Title"
             value={formState.title}
             onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'title', value: e.target.value })}
             required
           />
-        </div>
 
-        <div className="form-control">
-          <label>Description:</label>
-          <textarea
+          <TextField
+            label="Description"
+            multiline
+            rows={3}
             value={formState.description}
             onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'description', value: e.target.value })}
             required
           />
-        </div>
 
-        <div className="form-control">
-          <label>Image URL:</label>
-          <input
+          <TextField
+            label="Image URL"
             value={formState.imageUrl}
             onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'imageUrl', value: e.target.value })}
             required
           />
-        </div>
 
-        <div className="form-control">
-          <label>Items:</label>
-          <input
+          <TextField
+            label="Items (comma-separated)"
             value={formState.items}
             onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'items', value: e.target.value })}
             required
           />
-        </div>
 
-        <div className="form-control">
-          <label>Category:</label>
-          <select
-            value={formState.category}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'category', value: e.target.value })}
-            required
-          >
-            <option value="">-- Select Category --</option>
-            <option value="women">Women</option>
-            <option value="men">Men</option>
-          </select>
-        </div>
+          <FormControl fullWidth required>
+            <InputLabel>Category</InputLabel>
+            <Select
+              value={formState.category}
+              label="Category"
+              onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'category', value: e.target.value })}
+            >
+              <MenuItem value="women">Women</MenuItem>
+              <MenuItem value="men">Men</MenuItem>
+            </Select>
+          </FormControl>
 
-        <div className="form-control">
-          <label>Subcategory:</label>
-          <select
-            value={formState.subcategory}
-            onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'subcategory', value: e.target.value })}
-            required
-          >
-            <option value="">-- Select Subcategory --</option>
-            {filteredSubcategories.map((sc) => (
-              <option key={sc._id} value={sc._id}>
-                {sc.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <FormControl fullWidth required>
+            <InputLabel>Subcategory</InputLabel>
+            <Select
+              value={formState.subcategory}
+              label="Subcategory"
+              onChange={(e) => dispatch({ type: 'SET_FIELD', field: 'subcategory', value: e.target.value })}
+            >
+              {filteredSubcategories.map((sc) => (
+                <MenuItem key={sc._id} value={sc._id}>
+                  {sc.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
-        <button type="submit">Create Outfit</button>
-      </form>
-    </div>
+          <Button variant="contained" color="primary" type="submit">
+            Create Outfit
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   )
 }
 

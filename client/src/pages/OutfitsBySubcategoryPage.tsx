@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import '../styles/OutfitsBySubcategoryPage.scss'
 
 interface Outfit {
   _id: string
@@ -14,6 +15,7 @@ interface Outfit {
 
 const OutfitsBySubcategoryPage = () => {
   const { subcategoryId } = useParams()
+  const navigate = useNavigate()
   const [outfits, setOutfits] = useState<Outfit[]>([])
 
   useEffect(() => {
@@ -32,18 +34,27 @@ const OutfitsBySubcategoryPage = () => {
   }, [subcategoryId])
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="subcategory-outfits">
       <h2>Outfits</h2>
-      <div className="outfit-grid">
-        {outfits.map((outfit) => (
-          <div key={outfit._id} className="outfit-card">
-            <img src={outfit.imageUrl} alt={outfit.title} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
-            <h3>{outfit.title}</h3>
-            <p>{outfit.description}</p>
-            <p><strong>Subcategory:</strong> {outfit.subcategory?.name}</p>
-          </div>
-        ))}
-      </div>
+      {outfits.length === 0 ? (
+        <p>No outfits available in this subcategory.</p>
+      ) : (
+        <div className="outfit-grid">
+          {outfits.map((outfit) => (
+            <div
+              key={outfit._id}
+              className="outfit-card"
+              onClick={() => navigate(`/outfits/details/${outfit._id}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              <img src={outfit.imageUrl} alt={outfit.title} />
+              <h3>{outfit.title}</h3>
+              <p>{outfit.description}</p>
+              <p><strong>Subcategory:</strong> {outfit.subcategory?.name}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

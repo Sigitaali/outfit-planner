@@ -1,6 +1,18 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios'
+import {
+  Container,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Button,
+  Paper,
+  Box
+} from '@mui/material'
 
 interface Subcategory {
   _id: string
@@ -67,16 +79,12 @@ const EditOutfitPage = () => {
         subcategory
       }
 
-      await axios.put(
-        `http://localhost:3000/api/outfits/${id}`,
-        updatedData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+      await axios.put(`http://localhost:3000/api/outfits/${id}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
-      )
+      })
 
       navigate('/my-outfits')
     } catch (err: any) {
@@ -86,45 +94,71 @@ const EditOutfitPage = () => {
   }
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h2>Edit Outfit</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-control">
-          <label>Title:</label>
-          <input value={title} onChange={(e) => setTitle(e.target.value)} required />
-        </div>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper sx={{ p: 4 }}>
+        <Typography variant="h5" gutterBottom>
+          Edit Outfit
+        </Typography>
 
-        <div className="form-control">
-          <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} required />
-        </div>
+        {error && (
+          <Typography color="error" sx={{ mb: 2 }}>
+            {error}
+          </Typography>
+        )}
 
-        <div className="form-control">
-          <label>Image URL:</label>
-          <input value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} required />
-        </div>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <TextField
+            label="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
 
-        <div className="form-control">
-          <label>Items (comma separated):</label>
-          <input value={items} onChange={(e) => setItems(e.target.value)} required />
-        </div>
+          <TextField
+            label="Description"
+            multiline
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
 
-        <div className="form-control">
-          <label>Subcategory:</label>
-          <select value={subcategory} onChange={(e) => setSubcategory(e.target.value)} required>
-            <option value="">-- Select --</option>
-            {subcategories.map((sc) => (
-              <option key={sc._id} value={sc._id}>
-                {sc.name}
-              </option>
-            ))}
-          </select>
-        </div>
+          <TextField
+            label="Image URL"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            required
+          />
 
-        <button type="submit">Update Outfit</button>
-      </form>
-    </div>
+          <TextField
+            label="Items (comma separated)"
+            value={items}
+            onChange={(e) => setItems(e.target.value)}
+            required
+          />
+
+          <FormControl fullWidth required>
+            <InputLabel>Subcategory</InputLabel>
+            <Select
+              value={subcategory}
+              label="Subcategory"
+              onChange={(e) => setSubcategory(e.target.value)}
+            >
+              <MenuItem value="">-- Select --</MenuItem>
+              {subcategories.map((sc) => (
+                <MenuItem key={sc._id} value={sc._id}>
+                  {sc.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <Button type="submit" variant="contained" color="primary">
+            Update Outfit
+          </Button>
+        </Box>
+      </Paper>
+    </Container>
   )
 }
 

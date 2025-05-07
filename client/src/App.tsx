@@ -49,7 +49,7 @@ const App = () => {
         <Route path="/outfits/:category" element={<OutfitsPage />} />
         <Route path="/outfits/subcategory/:subcategoryId" element={<OutfitsBySubcategoryPage />} />
         <Route path="/outfits/details/:id" element={<OutfitDetailsPage />} />
-        <Route path="/all-comments" element={<AllCommentsPage />} />
+        <Route path="/comments" element={<AllCommentsPage />} />
         <Route path="/comments/:id" element={<SingleCommentPage />} />
 
 

@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import {
+  Box,
+  Typography,
+  TextField,
+  Rating,
+  Button,
+  Paper,
+  Stack
+} from '@mui/material'
 import { useAuth } from '../../context/AuthContext'
 
 interface Comment {
@@ -20,11 +29,11 @@ const CommentSection = ({ outfitId }: Props) => {
   const { user } = useAuth()
   const [comments, setComments] = useState<Comment[]>([])
   const [text, setText] = useState('')
-  const [rating, setRating] = useState(0)
+  const [rating, setRating] = useState<number | null>(0)
 
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null)
   const [editText, setEditText] = useState('')
-  const [editRating, setEditRating] = useState(0)
+  const [editRating, setEditRating] = useState<number | null>(0)
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -41,7 +50,7 @@ const CommentSection = ({ outfitId }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!text || rating === 0) return
+    if (!text || !rating) return
 
     try {
       const token = localStorage.getItem('token')
@@ -103,86 +112,73 @@ const CommentSection = ({ outfitId }: Props) => {
   }
 
   return (
-    <div className="comment-section">
-      <h3>Comments</h3>
+    <Box mt={4}>
+      <Typography variant="h5" gutterBottom>Comments</Typography>
 
-      {comments.length === 0 && <p>No comments yet.</p>}
+      {comments.length === 0 && <Typography>No comments yet.</Typography>}
 
-      {comments.map(comment => (
-        <div key={comment._id} className="comment">
-          {editingCommentId === comment._id ? (
-            <>
-              <textarea
-                value={editText}
-                onChange={e => setEditText(e.target.value)}
-              />
-              <div className="stars">
-                {[1, 2, 3, 4, 5].map(num => (
-                  <span
-                    key={num}
-                    style={{
-                      cursor: 'pointer',
-                      color: num <= editRating ? '#f39c12' : '#ccc',
-                      fontSize: '1.5rem'
-                    }}
-                    onClick={() => setEditRating(num)}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-              <button onClick={saveEdit}>Save</button>
-              <button onClick={cancelEdit}>Cancel</button>
-            </>
-          ) : (
-            <>
-              <p>
-                <strong>{comment.user.username}</strong>: {comment.text}
-              </p>
-              <div className="rating">
-                {'★'.repeat(comment.rating)}
-                {'☆'.repeat(5 - comment.rating)}
-              </div>
-              {user && user.id === comment.user._id && (
-                <>
-                  <button onClick={() => handleDelete(comment._id)}>Delete</button>
-                  <button onClick={() => startEdit(comment)}>Edit</button>
-                </>
-              )}
-            </>
-          )}
-        </div>
-      ))}
+      <Stack spacing={2}>
+        {comments.map(comment => (
+          <Paper key={comment._id} elevation={3} sx={{ p: 2 }}>
+            {editingCommentId === comment._id ? (
+              <>
+                <TextField
+                  fullWidth
+                  multiline
+                  label="Edit Comment"
+                  value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                  sx={{ mb: 1 }}
+                />
+                <Rating
+                  value={editRating}
+                  onChange={(_, newValue) => setEditRating(newValue)}
+                />
+                <Box mt={1}>
+                  <Button onClick={saveEdit} variant="contained" size="small" sx={{ mr: 1 }}>Save</Button>
+                  <Button onClick={cancelEdit} variant="outlined" size="small" color="secondary">Cancel</Button>
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography>
+                  <strong>{comment.user.username}</strong>: {comment.text}
+                </Typography>
+                <Rating value={comment.rating} readOnly />
+                {user && user.id === comment.user._id && (
+                  <Box mt={1}>
+                    <Button onClick={() => startEdit(comment)} size="small">Edit</Button>
+                    <Button onClick={() => handleDelete(comment._id)} size="small" color="error">Delete</Button>
+                  </Box>
+                )}
+              </>
+            )}
+          </Paper>
+        ))}
+      </Stack>
 
       {user && (
-        <form onSubmit={handleSubmit} className="comment-form">
-          <label htmlFor="rating">Rating:</label>
-          <div className="stars">
-            {[1, 2, 3, 4, 5].map(num => (
-              <span
-                key={num}
-                style={{
-                  cursor: 'pointer',
-                  color: num <= rating ? '#f39c12' : '#ccc',
-                  fontSize: '1.5rem'
-                }}
-                onClick={() => setRating(num)}
-              >
-                ★
-              </span>
-            ))}
-          </div>
-
-          <textarea
-            placeholder="Write a comment..."
+        <Box component="form" onSubmit={handleSubmit} mt={4}>
+          <Typography variant="h6">Leave a comment</Typography>
+          <TextField
+            fullWidth
+            label="Your comment"
+            multiline
+            rows={3}
             value={text}
-            onChange={e => setText(e.target.value)}
+            onChange={(e) => setText(e.target.value)}
             required
+            sx={{ mb: 2 }}
           />
-          <button type="submit">Post Comment</button>
-        </form>
+          <Rating
+            value={rating}
+            onChange={(_, newValue) => setRating(newValue)}
+            sx={{ mb: 2 }}
+          />
+          <Button type="submit" variant="contained">Post Comment</Button>
+        </Box>
       )}
-    </div>
+    </Box>
   )
 }
 

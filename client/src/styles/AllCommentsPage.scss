@@ -1,0 +1,41 @@
+.comments-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #333;
+    }
+  }
+  
+  .comment-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+  
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+  
+    p {
+      margin: 0.4rem 0;
+      font-size: 1rem;
+  
+      strong {
+        color: #444;
+      }
+  
+      em {
+        color: #666;
+      }
+    }
+  }
+  

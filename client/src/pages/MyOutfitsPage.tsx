@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import SubmitButton from '../components/buttons/SubmitButton'
 import DangerButton from '../components/buttons/DangerButton'
+import '../styles/MyOutfitsPage.scss'
 
 interface Outfit {
   _id: string
@@ -66,8 +67,8 @@ const MyOutfitsPage = () => {
               <img src={outfit.imageUrl} alt={outfit.title} />
               <h3>{outfit.title}</h3>
               <p>{outfit.description}</p>
-              <p><strong>Category:</strong> {outfit.subcategory?.name}</p>
-              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
+              <p><strong>Subcategory:</strong> {outfit.subcategory?.name}</p>
+              <div className="buttons">
                 <SubmitButton text="Edit" onClick={() => handleEdit(outfit._id)} color="primary" />
                 <DangerButton onClick={() => handleDelete(outfit._id)}>Delete</DangerButton>
               </div>
