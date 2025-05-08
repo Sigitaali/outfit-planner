@@ -19,7 +19,14 @@ const Navbar = () => {
           Outfit Planner
         </Typography>
 
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: { xs: 'center', sm: 'flex-end' } }}>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            flexWrap: 'wrap',
+            justifyContent: { xs: 'center', sm: 'flex-end' },
+          }}
+        >
           <Button color="inherit" component={Link} to="/">Home</Button>
           <Button color="inherit" component={Link} to="/outfits">Outfits</Button>
           <Button color="inherit" component={Link} to="/comments">Comments</Button>
@@ -29,6 +36,17 @@ const Navbar = () => {
               <Button color="inherit" component={Link} to="/profile">Profile</Button>
               <Button color="inherit" component={Link} to="/my-outfits">My Outfits</Button>
               <Button color="inherit" component={Link} to="/create-outfit">Create Outfit</Button>
+              {user.role === 'admin' && (
+                <Button color="inherit" component={Link} to="/admin/outfits">
+                  Admin Panel
+                </Button>
+              )}
+              {user?.role === 'admin' && (
+              <Button color="inherit" component={Link} to="/admin/comments">
+                 Admin Comments
+                </Button>
+      )}
+
               <Button color="inherit" onClick={logoutUser}>Logout</Button>
             </>
           ) : (

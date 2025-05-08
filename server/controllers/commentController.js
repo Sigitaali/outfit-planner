@@ -41,7 +41,10 @@ export const updateComment = async (req, res) => {
     const comment = await Comment.findById(req.params.id)
     if (!comment) return res.status(404).json({ message: 'Comment not found' })
 
-    if (comment.user.toString() !== req.user.id)
+    const isOwner = comment.user.toString() === req.user.id
+    const isAdmin = req.user.role === 'admin'
+
+    if (!isOwner && !isAdmin)
       return res.status(403).json({ message: 'Not authorized' })
 
     if (req.body.rating < 1 || req.body.rating > 5) {
@@ -57,6 +60,7 @@ export const updateComment = async (req, res) => {
     res.status(400).json({ message: err.message })
   }
 }
+
 
 export const deleteComment = async (req, res) => {
   try {

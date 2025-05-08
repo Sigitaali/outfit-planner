@@ -16,6 +16,8 @@ import EditOutfitPage from './pages/EditOutfitPage'
 import { NotificationProvider } from './context/NotificationContext'
 import AllCommentsPage from './pages/AllCommentsPage'
 import SingleCommentPage from './pages/SingleCommentPage'
+import AdminOutfitsPage from './pages/AdminOutfitsPage'
+import AdminCommentsPage from './pages/AdminCommentsPage'
 
 const App = () => {
   return (
@@ -51,6 +53,9 @@ const App = () => {
         <Route path="/outfits/details/:id" element={<OutfitDetailsPage />} />
         <Route path="/comments" element={<AllCommentsPage />} />
         <Route path="/comments/:id" element={<SingleCommentPage />} />
+        <Route path="/admin/outfits" element={<AdminOutfitsPage />} />
+        <Route path="/admin/comments" element={<AdminCommentsPage />} />
+        
 
 
         <Route
