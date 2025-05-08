@@ -18,10 +18,12 @@ import AllCommentsPage from './pages/AllCommentsPage'
 import SingleCommentPage from './pages/SingleCommentPage'
 import AdminOutfitsPage from './pages/AdminOutfitsPage'
 import AdminCommentsPage from './pages/AdminCommentsPage'
+import EditProfilePage from './pages/EditProfilePage'
+import AdminUsersPage from './pages/AdminUsersPage'
 
 const App = () => {
   return (
-    <NotificationProvider> { }
+    <NotificationProvider>
       <Navbar />
 
       <Routes>
@@ -38,7 +40,6 @@ const App = () => {
             </OutfitFilterProvider>
           }
         />
-
         <Route
           path="/outfits/:category"
           element={
@@ -48,16 +49,30 @@ const App = () => {
           }
         />
 
-        <Route path="/outfits/:category" element={<OutfitsPage />} />
         <Route path="/outfits/subcategory/:subcategoryId" element={<OutfitsBySubcategoryPage />} />
         <Route path="/outfits/details/:id" element={<OutfitDetailsPage />} />
         <Route path="/comments" element={<AllCommentsPage />} />
         <Route path="/comments/:id" element={<SingleCommentPage />} />
+
         <Route path="/admin/outfits" element={<AdminOutfitsPage />} />
         <Route path="/admin/comments" element={<AdminCommentsPage />} />
-        
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute>
+              <AdminUsersPage />
+            </ProtectedRoute>
+          }
+        />
 
-
+        <Route
+          path="/edit-profile"
+          element={
+            <ProtectedRoute>
+              <EditProfilePage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/create-outfit"
           element={

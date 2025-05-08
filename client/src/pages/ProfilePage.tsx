@@ -7,6 +7,7 @@ import '../styles/ProfilePage.scss'
 
 type UserData = {
   username: string
+  id: string
   email: string
   role: string
 }
@@ -15,6 +16,25 @@ const ProfilePage = () => {
   const { logoutUser } = useAuth()
   const navigate = useNavigate()
   const [userData, setUserData] = useState<UserData | null>(null)
+
+  const handleDeleteUser = async () => {
+    const confirmed = window.confirm('Are you sure you want to delete your account? This action cannot be undone.')
+    if (!confirmed || !userData) return
+
+    try {
+      const token = localStorage.getItem('token')
+      await axios.delete(`http://localhost:3000/api/users/${userData.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      logoutUser()
+      navigate('/')
+    } catch (err) {
+      console.error('Failed to delete user:', err)
+    }
+  }
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -54,10 +74,13 @@ const ProfilePage = () => {
       </div>
 
       <div className="profile-actions">
-        <SubmitButton onClick={() => navigate('/my-outfits')} text="View My Outfits" color="success" />
-        <SubmitButton onClick={logoutUser} text="Logout" color="error" />
+  <SubmitButton onClick={() => navigate('/my-outfits')} text="View My Outfits" color="success" />
+  <SubmitButton onClick={logoutUser} text="Logout" color="error" />
+  <SubmitButton onClick={() => navigate('/edit-profile')} text="Edit Profile" color="primary" />
+  <SubmitButton onClick={handleDeleteUser} text="Delete Account" color="error" />
+</div>
+  
       </div>
-    </div>
   )
 }
 

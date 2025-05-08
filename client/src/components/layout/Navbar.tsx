@@ -47,6 +47,12 @@ const Navbar = () => {
                 </Button>
       )}
 
+              {user?.role === 'admin' && (
+              <Button color="inherit" component={Link} to="/admin/users">
+                Admin Users
+              </Button>
+            )}
+
               <Button color="inherit" onClick={logoutUser}>Logout</Button>
             </>
           ) : (
